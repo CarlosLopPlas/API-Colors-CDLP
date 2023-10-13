@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgresql-db:
+    image: postgres:latest
+    container_name: postgresql-db
+    environment:
+      POSTGRES_USER: asha
+      POSTGRES_PASSWORD: okidoki
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  go-api:
+    build:
+      context: .  # Debe estar en el mismo directorio que tu código Go
+    container_name: go-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgresql-db
+
+volumes:
+  postgres-data:
+
